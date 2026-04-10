@@ -1,0 +1,22 @@
+{
+  "overview": "A smart campus waste management system with two dedicated views: facilities staff can monitor bin fill levels and dispatch collection teams, while campus managers see predictive forecasts and waste trends to plan extra collections before they're needed.",
+  "features": [
+    "Role-based dashboards for staff and managers",
+    "Real-time bin fill level monitoring across 30 campus bins",
+    "Predictive collection scheduling for the next 7 days",
+    "Collection dispatch and history tracking for facilities staff",
+    "Waste trends and building-level reports for campus managers",
+    "Color-coded urgency indicators (green/yellow/red) for bin status",
+    "Simulated campus data with realistic fill patterns"
+  ],
+  "category": "productivity",
+  "tags": [
+    "waste-management",
+    "campus",
+    "iot",
+    "predictive-analytics",
+    "dashboard",
+    "facilities"
+  ],
+  "last_updated": "2026-04-09T18:31:42.535Z"
+}

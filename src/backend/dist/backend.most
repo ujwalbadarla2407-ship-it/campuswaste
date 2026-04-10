@@ -1,0 +1,83 @@
+// Version: 1.0.0
+type BinId__1061576982 = Nat;
+type Bin__569298419 =
+  {
+    binLabel : Text;
+    buildingId : BuildingId__31169591;
+    var fillPercent : Nat;
+    id : BinId__1061576982;
+    var lastCollectedAt : Timestamp__301639476;
+    var predictedNextCollectionAt : Timestamp__301639476
+  };
+type BuildingId__31169591 = Nat;
+type Building__893728737 =
+  {id : BuildingId__31169591; name : Text; zone : Text};
+type CollectionRecord__497586246 =
+  {
+    binId : BinId__1061576982;
+    collectedAt : Timestamp__301639476;
+    fillPercentAtCollection : Nat;
+    status : CollectionStatus__401608770
+  };
+type CollectionStatus__401608770 = {#completed; #inProgress; #pending};
+type CollectionTask__382493746 =
+  {
+    binId : BinId__1061576982;
+    createdAt : Timestamp__301639476;
+    id : Nat;
+    var status : CollectionStatus__401608770;
+    var updatedAt : Timestamp__301639476
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Timestamp__301639476 = Int;
+type UserProfile__126927910 = {name : Text; role : UserRole__133182501};
+type UserRole__133182501 = {#campusManager; #facilitiesStaff};
+actor {
+  stable bins :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Bin__569298419]];
+      var elementIndex : Nat__490723111
+    };
+  stable buildings :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Building__893728737]];
+      var elementIndex : Nat__490723111
+    };
+  stable collectionHistory :
+    {
+      var root :
+        Node__46230540<BinId__1061576982,
+                        List__415060402<CollectionRecord__497586246>>;
+      var size : Nat__490723111
+    };
+  stable collectionTasks :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?CollectionTask__382493746]];
+      var elementIndex : Nat__490723111
+    };
+  stable initTime : Int;
+  stable var nextTaskId : Nat;
+  stable userProfiles :
+    {
+      var root : Node__46230540<Principal, UserProfile__126927910>;
+      var size : Nat__490723111
+    }
+};

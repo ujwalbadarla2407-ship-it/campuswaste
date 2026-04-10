@@ -1,0 +1,98 @@
+type WasteTrendEntry = 
+ record {
+   buildingId: BuildingId;
+   collectedKg: nat;
+   dayOffset: nat;
+ };
+type UserRole = 
+ variant {
+   campusManager;
+   facilitiesStaff;
+ };
+type UserProfile = 
+ record {
+   name: text;
+   role: UserRole;
+ };
+type Timestamp = int;
+type DailyForecast = 
+ record {
+   confidence: ConfidenceLevel;
+   dayOffset: nat;
+   needsCollection: bool;
+   predictedFillPercent: nat;
+ };
+type ConfidenceLevel = 
+ variant {
+   high;
+   low;
+   medium;
+ };
+type CollectionTaskInfo = 
+ record {
+   binId: BinId;
+   createdAt: Timestamp;
+   id: nat;
+   status: CollectionStatus;
+   updatedAt: Timestamp;
+ };
+type CollectionStatus = 
+ variant {
+   completed;
+   inProgress;
+   pending;
+ };
+type CollectionRecord = 
+ record {
+   binId: BinId;
+   collectedAt: Timestamp;
+   fillPercentAtCollection: nat;
+   status: CollectionStatus;
+ };
+type BuildingWasteSummary = 
+ record {
+   averageFillPercent: nat;
+   buildingId: BuildingId;
+   buildingName: text;
+   rank: nat;
+   totalCollectedKg: nat;
+ };
+type BuildingId = nat;
+type Building = 
+ record {
+   id: BuildingId;
+   name: text;
+   zone: text;
+ };
+type BinInfo = 
+ record {
+   binLabel: text;
+   buildingId: BuildingId;
+   fillPercent: nat;
+   id: BinId;
+   lastCollectedAt: Timestamp;
+   predictedNextCollectionAt: Timestamp;
+ };
+type BinId = nat;
+type BinForecast = 
+ record {
+   binId: BinId;
+   buildingId: BuildingId;
+   forecasts: vec DailyForecast;
+ };
+service : {
+  dispatchCollection: (binId: BinId) -> (nat);
+  getActiveTasks: () -> (vec CollectionTaskInfo) query;
+  getBinStatuses: () -> (vec BinInfo) query;
+  getBinsForBuilding: (buildingId: BuildingId) -> (vec BinInfo) query;
+  getBinsNeedingCollection: () -> (vec BinInfo) query;
+  getBuildingForecast: (buildingId: BuildingId) -> (vec BinForecast) query;
+  getBuildingSummaries: () -> (vec BuildingWasteSummary) query;
+  getBuildings: () -> (vec Building) query;
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCollectionHistory: (binId: BinId) -> (vec CollectionRecord) query;
+  getUserProfile: (user: principal) -> (opt UserProfile) query;
+  getWasteTrends: () -> (vec WasteTrendEntry) query;
+  saveCallerUserProfile: (profile: UserProfile) -> ();
+  updateCollectionStatus: (taskId: nat, status: CollectionStatus) -> ();
+}
